@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class FeatureFlagControllerTest {
+public class FeatureFlagControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -38,7 +38,7 @@ public class FeatureFlagControllerTest {
     private FeatureFlagMapper mapper;
 
     @Test
-    void testCreateFeatureFlagReturns201() throws Exception {
+    void testCreateFeatureFlagReturnsCreated() throws Exception {
         FeatureFlag flag = new FeatureFlag(1L, "my-flag", "description", false, null, null);
 
         when(service.createFeatureFlag(any())).thenReturn(flag);
@@ -58,7 +58,7 @@ public class FeatureFlagControllerTest {
     }
 
     @Test
-    void testCreateFeatureFlagBlankNameReturns400() throws Exception {
+    void testCreateFeatureFlagBlankNameReturnsBadRequest() throws Exception {
         mockMvc.perform(post("/flags")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
@@ -72,7 +72,7 @@ public class FeatureFlagControllerTest {
     }
 
     @Test
-    void testDeleteFeatureFlagReturns204() throws Exception {
+    void testDeleteFeatureFlagReturnsNoContent() throws Exception {
         mockMvc.perform(delete("/flags/1"))
             .andExpect(status().isNoContent());
 
@@ -80,7 +80,7 @@ public class FeatureFlagControllerTest {
     }
 
     @Test
-    void testDeleteFeatureFlagReturns404() throws Exception {
+    void testDeleteFeatureFlagReturnsNotFound() throws Exception {
         doThrow(new FeatureFlagNotFoundException("Feature flag with id 1L not found"))
             .when(service).deleteFeatureFlag(1L);
 
@@ -89,7 +89,7 @@ public class FeatureFlagControllerTest {
     }
 
     @Test
-    void testUpdateFeatureFlagReturns200() throws Exception {
+    void testUpdateFeatureFlagReturnsOK() throws Exception {
         FeatureFlag flag = new FeatureFlag(1L, "my-flag", "updated description", false, null, null);
 
         when(service.updateFeatureFlag(eq(1L), any())).thenReturn(flag);
@@ -109,7 +109,7 @@ public class FeatureFlagControllerTest {
     }
 
     @Test
-    void testUpdateFeatureFlagReturns404() throws Exception {
+    void testUpdateFeatureFlagReturnsNotFound() throws Exception {
         doThrow(new FeatureFlagNotFoundException("Feature flag with id 1L not found"))
             .when(service).updateFeatureFlag(eq(1L), any());
 

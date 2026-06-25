@@ -36,7 +36,7 @@ Contains two custom RuntimeExceptions:
 - DuplicateFeatureFlagNamesException
 - FeatureFlagNotFoundException
 
-And a global exception handler 
+And a global exception handler + ErrorResponse record
 
 ### Repository
 Custom interface that abstracts the storage mechanism (FeatureFlagRepository). 
