@@ -5,6 +5,7 @@ import com.simonatb.featureflag.dto.FeatureFlagEvaluationResponse;
 import com.simonatb.featureflag.dto.UpdateFeatureFlagRequest;
 import com.simonatb.featureflag.entity.FeatureFlag;
 import com.simonatb.featureflag.service.FeatureFlagService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class FeatureFlagController {
     private final FeatureFlagService service;
 
     @PostMapping
-    public ResponseEntity<FeatureFlag> createFeatureFlag(@RequestBody CreateFeatureFlagRequest request) {
+    public ResponseEntity<FeatureFlag> createFeatureFlag(@Valid @RequestBody CreateFeatureFlagRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.createFeatureFlag(request));
     }
 
@@ -43,7 +44,7 @@ public class FeatureFlagController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<FeatureFlag> updateFeatureFlag(@PathVariable Long id,
-                                                         @RequestBody UpdateFeatureFlagRequest request) {
+                                                         @Valid @RequestBody UpdateFeatureFlagRequest request) {
         return ResponseEntity.ok(service.updateFeatureFlag(id, request));
     }
 
